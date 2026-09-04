@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name          DSP.ONO.speed - Stake Smooth Speed Hack (mod. dsp84 v.1.0) - Because reset, speed, burst, hold matters.
-// @namespace     https://github.com/spickers84/perzenfledderer/tree/main
+// @namespace     https://github.com/cutiejf/stakespeed/blob/main/ono.speed
 // @version       3.0.1
 // @description   Smooth, optimized speed scaling (rAF delta), timers auto-on, CSS snap for near-instant animations. Collapsible advanced options. Max speed capped at 9.9x.
 // @author        jayfantz
@@ -33,24 +33,24 @@
     'use strict';
 
     // ---------------- State / Config
-    let speed = 1.01020198019800; //1.01523108136706;//1.01020198019800; // 1.099798019802 -> 1.089798019802
-    let speed_default = 1.01020198019800;
-    let speed_reset = 1.0;
-    let speed_plus = 0.0047523108136706 / 2.1263791;
-    let speed_minus = 0.0147523108136706 / 4.8731;
-    let speed_inc1 = (1.01020198019800 + 1.010201980198) - 1.047500891089102025;
-    let speed_inc4 = (1.01020198019800 + 1.010201980198) - 0.124750089108910202;
-    let speed_inc3 = (1.01020198019800 + 1.010201980198) - 0.237590089108910202;
-    let speed_inc2 = (1.01020198019800 + 1.010201980198) - 0.474590089108910202;
+    let speed = 1.0010201; //1.01523108136706;//1.01020198019800; // 1.099798019802 -> 1.089798019802
+    let speed_default = 1.001020133; // 0.1020198019998
+    let speed_reset = 1.001;
+    let speed_plus = 0.1523108136706;
+    let speed_minus = 0.1523108136706;
+    let speed_inc1 = speed_reset + (1.13 * speed_plus);
+    let speed_inc2 = speed_inc1 + (1.13 * speed_plus);
+    let speed_inc3 = speed_inc1 + (2.11 * speed_plus);
+    let speed_inc4 = speed_inc1 + (2.13 * speed_plus);
 
     const bootTime = performance.now();
-    let scaledTimeOffset = 0.02475;
-    const MAX_SPEED = speed_default + 9.9979092;
+    let scaledTimeOffset = 0.0;
+    const MAX_SPEED = 9.995666603333333333333333333333;
     const MAX_Z_INDEX = '2147483647';
     const BORDER_PURPLE = '#7340a3';
 
     const hooks = {
-        requestAnimationFrame: false,
+        requestAnimationFrame: true,
         setTimeout: true,
         setInterval: true,
         css: true,
@@ -62,7 +62,7 @@
         anime: null,
         velocity: null,
     };
-    const CSS_SNAP_S = 0.02475;//0.05;
+    const CSS_SNAP_S = 0.0475;//0.05;
     const MIN_TIMEOUT_MS = 0;
     const MIN_INTERVAL_MS = 1;
 
@@ -582,7 +582,7 @@ font-weight: 700 !important;
 
     // ---------------- Core / Helper Functions (Unchanged) ----------------
     function setSpeed(target) {
-        let newSpeed = Math.max(0.01020198019800, target);
+        let newSpeed = Math.max(0.025310217196, target);
         newSpeed = Math.min(MAX_SPEED, newSpeed);
 
         const currentTime = performance.now();
